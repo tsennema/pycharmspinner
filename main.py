@@ -9,9 +9,11 @@ def main():
              {'name': "Taste of Seoul", 'style': "Asian", 'price': "$"},
              {'name': "Burrito Boyz", 'style': "Mexican", 'price': "$$$"}]
     number = 2
-    exclude = [{'style': "Asian"}, {'price': "$$$"}]
-    nodupe = [{'style': "American"}]
-    filtered = filter(wheel, exclude, nodupe)
+    exclude_params = [{'style': "Asian"}, {'price': "$$$"}]
+    nodupe_params = [{'style': "American"}]
+    # Note that filters will apply in this order: exlude -> nodupe and may throw a warning if there's not enough options to satisfy both
+    filtered = exclude(wheel, exclude_params)
+    filtered = nodupe(filtered, nodupe_params)
     choices = spinner(filtered, number)
     for i in range(len(choices)):
         print(choices[i])
@@ -32,9 +34,8 @@ def spinner(items, number): # items is list of dictionaries, number is integer
     return choices
 
 
-def filter(wheel, exclude, nodupe): # wheel is a list of dictionaries, exclude, is list of key-value pair dictionaries
+def exclude(wheel, exclude): # wheel is a list of dictionaries, exclude, is list of key-value pair dictionaries
     # Given a list of dictionaries, and a list of excluded key: value pairs, trim the list to items without
-    # todo implement no duplicate functionality
     filtered = []
     check = 0
     for i in range(len(wheel)):
@@ -47,6 +48,11 @@ def filter(wheel, exclude, nodupe): # wheel is a list of dictionaries, exclude, 
         check = 0
     return filtered
     # return items
+
+
+def nodupe(wheel, nodupe):
+    # todo build this function to prevent duplicate tags if possible
+    return wheel
 
 
 if __name__ == main():
