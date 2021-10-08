@@ -1,1 +1,18 @@
-<body>sup</body>
+{% extends "layout.html" %}
+
+{% block title %}
+    Menu
+{% endblock %}
+
+{% block body %}
+    <div>
+        <h1>Menu</h1>
+    </div>
+    <form action="/spin" method="get">
+        <button type ="submit">Spin the Wheel</button>
+    </form>
+    <br>
+    <button type ="submit">Wheel Management</button>
+    <br>
+    <button type ="submit">Tag Management</button>
+{% endblock %}

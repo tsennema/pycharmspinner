@@ -1,9 +1,20 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request
 import sqlite3
 import random
 
-# Initializing flask
+# Configure application
 app = Flask(__name__)
+
+# Ensure templates are auto-reloaded
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Ensure responses aren't cached
+@app.after_request
+def after_request(response):
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
 
 # This function helps convert list of tuple output of sql query into list of dictionaries output
 # Taken from https://stackoverflow.com/questions/3300464/how-can-i-get-dict-from-sqlite-query
@@ -18,9 +29,34 @@ connection.row_factory = dict_factory
 db = connection.cursor()
 
 @app.route("/")
-def hello_world():
+def index():
+    # Home page, with options to navigate to spin page, wheels page, tags page
     return render_template('index.html')
 
+@app.route("/spin", methods=["GET", "POST"])
+def spin():
+    # Have selector for each wheel in database, options for exclude/nodupe, button for select
+    # todo remember how to do get/post, post will have the results
+    if request.method == "POST":
+        # render spin.html with results attached
+        # i guess main code will go here
+
+        return render_template('spin.html')
+        # return render_template('spin.html', winner=winner)
+    else:
+        return render_template('spin.html')
+
+@app.route("/wheels")
+def wheels():
+    # Have input to create/delete new wheel (list), view existing wheels, add/remove items, add/remove tags from existing tag groups
+    # todo wheels
+    return render_template('index.html')
+
+@app.route("/tags")
+def tags():
+    # Have input to create/delete tag groups, and individual tags
+    # todo tags
+    return render_template('index.html')
 
 def main():
     # food is a list of dictionaries, that I would rather host in a db somewhere, but this will work for now
@@ -79,5 +115,5 @@ def nodupe(wheel, nodupe):
 
 
 
-if __name__ == main():
-    main()
+#if __name__ == main():
+    #main()
