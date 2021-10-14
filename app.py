@@ -50,13 +50,13 @@ def spin():
 def wheels():
     # Have input to create/delete new wheel (list), view existing wheels, add/remove items, add/remove tags from existing tag groups
     # todo wheels
-    return render_template('index.html')
+    return render_template('wheels.html')
 
 @app.route("/tags")
 def tags():
     # Have input to create/delete tag groups, and individual tags
     # todo tags
-    return render_template('index.html')
+    return render_template('tags.html')
 
 def main():
     # food is a list of dictionaries, that I would rather host in a db somewhere, but this will work for now
