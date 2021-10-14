@@ -1,18 +1,25 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Menu
+Menu
 {% endblock %}
 
 {% block body %}
+<header>
+    The Wheel
+</header>
+<main>
+    <h2>Menu</h2>
     <div>
-        <h1>Menu</h1>
+        <form action="/spin" method="get">
+            <button type="submit">Spin the Wheel</button>
+        </form>
+        <form action="/wheels">
+            <button type="submit">Wheel Management</button>
+        </form>
+        <form action="/tags">
+            <button type="submit">Tag Management</button>
+        </form>
     </div>
-    <form action="/spin" method="get">
-        <button type ="submit">Spin the Wheel</button>
-    </form>
-    <br>
-    <button type ="submit">Wheel Management</button>
-    <br>
-    <button type ="submit">Tag Management</button>
+</main>
 {% endblock %}

@@ -1,7 +1,63 @@
 body {
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    font-size: 64px;
+    text-align: center;
+    color: white;
+    margin: 0.25em 2em;
+}
+main {
+    background-color: lightgreen;
+    border-radius: 2em;
+    display: flex;
+    flex-basis: 400px;
+    width:fit-content;
+    flex-direction: column;
+    text-align: center;
+    margin: auto;
+    flex-shrink: 1;
+    padding: 1em 2em;
+}
+
+h2 {
+    font-size: 48px;
     text-align: center;
 }
 
-h1 {
-    font-size: 48px;
+main button {
+    background-color: rgb(94, 155, 94);
+    border-radius: 0.5em;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 36px;
+    margin: 0.5em;
+    padding: 10px 15px;
+}
+main button:hover {
+    color: white;
+    box-shadow: 0 0.2em 2px -2px black;
+    transform: translateY(-2px);
+    cursor: pointer;
+}
+#wheel {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background-color: yellow;
+    border: 2px solid black;
+    margin: 10px auto;
+}
+.options {
+    background-color: rgb(181, 238, 181);
+    margin: 1em;
+    float: left;
+    text-align: center;
+}
+#excludetable, #nodupetable {
+    float: left;
+    margin: 1em;
+    border: 2px solid black;
 }

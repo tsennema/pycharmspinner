@@ -1,9 +1,72 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Spinner
+Spinner
 {% endblock %}
 
 {% block body %}
-    Insert spinner here
+<div id='wheel'></div>
+<main>
+    <form action="/spin" method='post'>
+        <select name="wheels" id="wheels">
+
+        </select>
+    </form>
+    <form action="/spin" method='post'>
+        <button>Spin</button>
+        <br>
+        <label for="count">How Many Results?</label>
+
+        <input type="number" id='count' placeholder='1-4' , min=1, max=5>
+        <br>
+        <div class='options'>
+            <table id='excludetable'>
+                <thead>
+                    <tr>
+                        <th>Exclude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <table id='nodupetable'>
+                <thead>
+                    <tr>
+                        <th>Do Not Duplicate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</main>
+
+
+
+<footer>
+    <form action="/">
+        <button>Return to Menu</button>
+    </form>
+</footer>
 {% endblock %}
