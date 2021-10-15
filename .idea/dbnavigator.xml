@@ -25,22 +25,27 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="e046c7c9-adda-4b9b-8c14-8c411cc93b43">
+      <connection connection-id="4c36138f-d10a-424a-bc47-107fb1fde8a1">
         <schema name="main" object-types="table, view, constraint, index, column, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="e046c7c9-adda-4b9b-8c14-8c411cc93b43">
-      <console name="Wheels" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * FROM restaurants
-PRAGMA table_info(restaurants)]]></console>
+    <connection id="4c36138f-d10a-424a-bc47-107fb1fde8a1">
+      <console name="Picker" type="STANDARD" schema="main" session="Main"><![CDATA[SELECT * FROM wheels
+PRAGMA table_info(wheels)
+ALTER TABLE wheels ADD wheel_name TEXT 
+UPDATE wheels SET wheel_name = "restaurants"
+SELECT DISTINCT wheel_name FROM wheels]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="4c36138f-d10a-424a-bc47-107fb1fde8a1" object-ref="consoles/Picker" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="e046c7c9-adda-4b9b-8c14-8c411cc93b43" />
+    <connection id="4c36138f-d10a-424a-bc47-107fb1fde8a1" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -68,9 +73,9 @@ PRAGMA table_info(restaurants)]]></console>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="e046c7c9-adda-4b9b-8c14-8c411cc93b43" active="true">
+      <connection id="4c36138f-d10a-424a-bc47-107fb1fde8a1" active="true">
         <database>
-          <name value="Wheels" />
+          <name value="Picker" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />
@@ -83,14 +88,14 @@ PRAGMA table_info(restaurants)]]></console>
           <port value="" />
           <database value="" />
           <files>
-            <file path="C:\Users\Tyler\PycharmProjects\pythonProject\wheels.db" schema="main" />
+            <file path="C:\Users\Tyler\PycharmProjects\pythonProject\picker.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />
           <deprecated-pwd value="" />
         </database>
         <properties>
-          <auto-commit value="false" />
+          <auto-commit value="true" />
         </properties>
         <ssh-settings>
           <active value="false" />
