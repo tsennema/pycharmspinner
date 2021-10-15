@@ -24,7 +24,7 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d
 # Setting up SQLITE connection
-connection = sqlite3.connect("picker.db")
+connection = sqlite3.connect("picker.db", check_same_thread=False)
 connection.row_factory = dict_factory
 db = connection.cursor()
 
@@ -40,11 +40,22 @@ def spin():
     if request.method == "POST":
         # render spin.html with results attached
         # i guess main code will go here
+        wheel = db.execute("SELECT * FROM wheels WHERE wheel_name = 'restaurants'")
+        wheel = wheel.fetchall()
+        number = 1
+        #exclude_params = [{'style': "Asian"}, {'price': "$$$"}]
+        exclude_params = []
+        #nodupe_params = [{'style': "American"}]
+        nodupe_params = []
 
-        return render_template('spin.html')
+        # Note that filters will apply in this order: exclude -> nodupe and may throw a warning if there's not enough options to satisfy both
+        filtered = exclude(wheel, exclude_params)
+        filtered = nodupe(filtered, nodupe_params)
+        winners = spinner(filtered, number)
+
+        return render_template('spin.html', winners=winners)
         # return render_template('spin.html', winner=winner)
     else:
-
         return render_template('spin.html')
 
 @app.route("/wheels")
@@ -66,7 +77,7 @@ def main():
              #{'name': "Kentucky Bourbon", 'style': "American", 'price': "$"},
              #{'name': "Taste of Seoul", 'style': "Asian", 'price': "$"},
              #{'name': "Burrito Boyz", 'style': "Mexican", 'price': "$$$"}]
-    wheel = db.execute("SELECT * FROM restaurants")
+    wheel = db.execute("SELECT * FROM wheels")
     wheel = wheel.fetchall()
     number = 2
     exclude_params = [{'style': "Asian"}, {'price': "$$$"}]
@@ -98,15 +109,18 @@ def exclude(wheel, exclude):  # wheel is a list of dictionaries, exclude, is lis
     # Given a list of dictionaries, and a list of excluded key: value pairs, trim the list to items without
     filtered = []
     check = 0
-    for i in range(len(wheel)):
-        for j in range(len(exclude)):
-            [[key, value]] = exclude[j].items()
-            if (key, value) in wheel[i].items():
-                check = 1
-        if check == 0:
-            filtered.append(wheel[i])
-        check = 0
-    return filtered
+    if len(exclude) > 0:
+        for i in range(len(wheel)):
+            for j in range(len(exclude)):
+                [[key, value]] = exclude[j].items()
+                if (key, value) in wheel[i].items():
+                    check = 1
+            if check == 0:
+                filtered.append(wheel[i])
+            check = 0
+        return filtered
+    else:
+        return wheel
     # return items
 
 
