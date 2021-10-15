@@ -36,16 +36,34 @@ def index():
 @app.route("/spin", methods=["GET", "POST"])
 def spin():
     # Have selector for each wheel in database, options for exclude/nodupe, button for select
-    # todo remember how to do get/post, post will have the results
+    # todo make this all come from index
+    wheel_name = "restaurants"
+    taggroup = ["style", "price"]
+    tag1 = db.execute("SELECT DISTINCT %s FROM wheels WHERE wheel_name = ?" % (taggroup[0]), (wheel_name,))
+    tag1 = tag1.fetchall()
+    tag1list = []
+    for tag in range(len(tag1)):
+        tag1list.append(tag1[tag][taggroup[0]])
+    tag2 = db.execute("SELECT DISTINCT %s FROM wheels WHERE wheel_name = ?" % (taggroup[1]), (wheel_name,))
+    tag2 = tag2.fetchall()
+    tag2list = []
+    for tag in range(len(tag2)):
+        tag2list.append(tag2[tag][taggroup[1]])
+
     if request.method == "POST":
-        # render spin.html with results attached
-        # i guess main code will go here
-        wheel = db.execute("SELECT * FROM wheels WHERE wheel_name = 'restaurants'")
+        # Get count from POST, check for valid
+        if not request.form.get("count"):
+            number = 1
+        else:
+            number = int(request.form.get("count"))
+        # Get exclude parameters from POST
+
+        # Perform search/random selection
+        wheel = db.execute("SELECT * FROM wheels WHERE wheel_name = ?", (wheel_name,))
         wheel = wheel.fetchall()
-        number = 1
-        #exclude_params = [{'style': "Asian"}, {'price': "$$$"}]
+        # exclude_params = [{'style': "Asian"}, {'price': "$$$"}]
         exclude_params = []
-        #nodupe_params = [{'style': "American"}]
+        # nodupe_params = [{'style': "American"}]
         nodupe_params = []
 
         # Note that filters will apply in this order: exclude -> nodupe and may throw a warning if there's not enough options to satisfy both
@@ -53,10 +71,10 @@ def spin():
         filtered = nodupe(filtered, nodupe_params)
         winners = spinner(filtered, number)
 
-        return render_template('spin.html', winners=winners)
+        return render_template('spin.html', winners=winners, tag1=tag1list, tag2=tag2list)
         # return render_template('spin.html', winner=winner)
     else:
-        return render_template('spin.html')
+        return render_template('spin.html', tag1=tag1list, tag2=tag2list)
 
 @app.route("/wheels")
 def wheels():
@@ -101,7 +119,6 @@ def spinner(items, number):  # items is list of dictionaries, number is integer
         # Make sure no infinite loop
         if len(choices) == len(items):
             break
-
     return choices
 
 

@@ -7,6 +7,7 @@ Spinner
 {% block body %}
 <div id='wheel'>
     <div id='winner'>
+        <h2>Restaurants:</h2>
         {% for i in winners %}
         {{ i }}
         <br>
@@ -18,7 +19,7 @@ Spinner
         <button>Spin</button>
         <div class='spininput'>
             <label for="count">How Many Results?</label>
-            <input type="number" id='count' placeholder='1-4' , min=1, max=5>
+            <input type="number" id='count' name='count' placeholder='1-4' , min=1, max=4>
         </div>
         <div class='options'>
             <table id='excludetable'>
@@ -28,16 +29,14 @@ Spinner
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in tag1 %}
                     <tr>
-                        <td>item</td>
+                        <td>
+                            <input type="checkbox" id="{{ i }}" value="{{ i }}">
+                            <label for="{{ i }}">{{ i }}</label>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>item</td>
-                    </tr>
-                    <tr>
-                        <td>item</td>
-                    </tr>
-
+                    {% endfor %}
                 </tbody>
             </table>
 

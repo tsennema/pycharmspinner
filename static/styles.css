@@ -62,6 +62,9 @@ main button:hover {
     style: flex;
     flex-direction: column;
     justify-content: space-around;
+    text-align: center;
+    font-size:large;
+    transform: translateY(50px);
 }
 
 #excludetable, #nodupetable {
