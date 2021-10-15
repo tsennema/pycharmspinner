@@ -44,6 +44,7 @@ def spin():
         return render_template('spin.html')
         # return render_template('spin.html', winner=winner)
     else:
+
         return render_template('spin.html')
 
 @app.route("/wheels")
