@@ -13,6 +13,12 @@ Menu
     <div>
         <form action="/spin" method="get">
             <button type="submit">Spin the Wheel</button>
+            <label for="spinselect" hidden>Select Wheel to Spin</label>
+            <select name="wheelselect" id="spinselect">
+                {% for i in wheels %}
+                <option value="{{ i.wheel_name }}">{{ i.wheel_name }}</option>
+                {% endfor %}
+            </select>
         </form>
         <form action="/wheels">
             <button type="submit">Wheel Management</button>

@@ -31,13 +31,19 @@ db = connection.cursor()
 @app.route("/")
 def index():
     # Home page, with options to navigate to spin page, wheels page, tags page
-    return render_template('index.html')
+    wheels = db.execute("SELECT DISTINCT wheel_name FROM wheels")
+    wheels = wheels.fetchall()
+    return render_template('index.html', wheels=wheels)
 
 @app.route("/spin", methods=["GET", "POST"])
 def spin():
     # Have selector for each wheel in database, options for exclude/nodupe, button for select
     # todo make this all come from index
-    wheel_name = "restaurants"
+    if request.args.get("wheelselect"):
+        wheel_name = request.args.get("wheelselect")
+    elif request.form.get("wheelselect"):
+        wheel_name = request.form.get("wheelselect")
+
     taggroup = ["style", "price"]
     tag1 = db.execute("SELECT DISTINCT %s FROM wheels WHERE wheel_name = ?" % (taggroup[0]), (wheel_name,))
     tag1 = tag1.fetchall()
@@ -49,15 +55,14 @@ def spin():
     tag2list = []
     for tag in range(len(tag2)):
         tag2list.append(tag2[tag][taggroup[1]])
-
     if request.method == "POST":
         # Get count from POST, check for valid
         if not request.form.get("count"):
             number = 1
         else:
             number = int(request.form.get("count"))
-        # Get exclude parameters from POST
 
+        # Get exclude parameters from POST
         # Perform search/random selection
         wheel = db.execute("SELECT * FROM wheels WHERE wheel_name = ?", (wheel_name,))
         wheel = wheel.fetchall()
@@ -71,10 +76,10 @@ def spin():
         filtered = nodupe(filtered, nodupe_params)
         winners = spinner(filtered, number)
 
-        return render_template('spin.html', winners=winners, tag1=tag1list, tag2=tag2list)
+        return render_template('spin.html', wheel_name=wheel_name, winners=winners, tag1=tag1list, tag2=tag2list)
         # return render_template('spin.html', winner=winner)
     else:
-        return render_template('spin.html', tag1=tag1list, tag2=tag2list)
+        return render_template('spin.html', wheel_name=wheel_name, tag1=tag1list, tag2=tag2list)
 
 @app.route("/wheels")
 def wheels():
